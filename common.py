@@ -194,7 +194,7 @@ class PacketUtils:
     # if there is a RST back for that particular request
     def traceroute(self, target, hops):
         ipList = []
-        rstList = []
+        hopList = []
         prev_ips = []
         # Initialization of variables
         source_port = random.randint(2000, 30000)
@@ -220,22 +220,22 @@ class PacketUtils:
                         return "ERROR"
                     curr = response[IP].src
                     if isRST(response):
-                        rstList.append(True)
                         ipList.append(None)
+                        hopList.append(curr not in prev_ips)
                     elif isICMP(response):
                         if isTimeExceeded(response):
                             if not curr in prev_ips:
                                 ipList.append(curr)
                                 prev_ips.append(curr) # store IP from the request to check for unique hops
-                            rstList.append(True)
+                            hopList.append(True)
                         else:
                             if not curr in prev_ips:
                                 ipList.append(curr)
                                 prev_ips.append(curr)
-                            rstList.append(False)
+                            hopList.append(False)
                     else:
                         ipList.append(None)
-                        rstList.append(False)
+                        hopList.append(False)
         # Return the list of IPs that have a ahop and the list of whether each response is a IMCP/RST.
-        return (ipList, rstList)
+        return (ipList, hopList)
 
