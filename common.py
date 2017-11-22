@@ -227,15 +227,15 @@ class PacketUtils:
                             if not curr in prev_ips:
                                 ipList.append(curr)
                                 prev_ips.append(curr) # store IP from the request to check for unique hops
-                            hopList.append(True)
+                            hopList.append(curr not in prev_ips)
                         else:
                             if not curr in prev_ips:
                                 ipList.append(curr)
                                 prev_ips.append(curr)
-                            hopList.append(False)
+                            hopList.append(curr not in prev_ips)
                     else:
                         ipList.append(None)
-                        hopList.append(False)
+                        hopList.append(curr not in prev_ips)
         # Return the list of IPs that have a ahop and the list of whether each response is a IMCP/RST.
         return (ipList, hopList)
 
