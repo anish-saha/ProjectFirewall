@@ -193,9 +193,9 @@ class PacketUtils:
     # The second list is T/F 
     # if there is a RST back for that particular request
     def traceroute(self, target, hops):
-        ipList = [None] * hops 
-        rstList = [None] * hops
-        prev_ips = [None] * hops
+        ipList = [0] * hops 
+        rstList = [False] * hops
+        prev_ips = [0] * hops
         # Initialization of variables
         source_port = random.randint(2000, 30000)
         payload = "GET /search?q=Falun+Gong HTTP/1.1\nhost: www.google.com\n\n"
