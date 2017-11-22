@@ -1,0 +1,5 @@
+What is the TTL of the real replies from the server:  111
+
+What is the TTL of the injected packets from the Great Firewall:  100
+
+How many RST packets did the Great Firewall inject:  3

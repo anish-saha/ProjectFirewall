@@ -1,0 +1,11 @@
+~ Anish Saha, Dipam Acharrya
+~ CS161 - Computer Security - Fall 2017
+~ Login: cs161-afo, cs151-afp
+~ feedback.txt
+
+We felt that this project was enjoyable, but also extremely time-consuming. Especially apparent with the first
+two questions, we felt that figuring out even trivial things took a long time due to poor documentation and
+the lack of resources on Piazza. Parts 3 and 4 were very interesting, and I felt that while they were difficult,
+the final product was something we could be proud of. Overall, I feel that to improve this project, the staff
+should provide a conglomerate post with all the necessary common commands, as well as some links that could help
+with understanding the documentation of the APIs used in the project.
