@@ -161,7 +161,8 @@ class PacketUtils:
         # Get the ACK and SEQ values from the server-end response
         ack = response[TCP].ack
         seq = response[TCP].seq
-
+        self.send_pkt(payload=msg[i:i+1], flags="A", seq=ack+i, ack=seq+1, sport=source_port, dip=target)
+        
         for i in range(len(msg)-1):
             self.send_pkt(payload=msg[i:i+1], flags="A", seq=ack+i, ack=seq+i+1, sport=source_port, dip=target)
             self.send_pkt(payload='x', ttl=ttl, flags="A", seq=ack+i, ack=seq+i+1, sport=source_port, dip=target)
