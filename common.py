@@ -153,6 +153,7 @@ class PacketUtils:
     def evade(self, target, msg, ttl):
         result = ""
         # Send the initial SYN packet
+        source_port = random.randint(2000, 30000)
         self.send_pkt(flags="S", sport=source_port, dip=target)
         response = self.get_pkt()
         if response == None:
@@ -162,8 +163,8 @@ class PacketUtils:
         seq = response[TCP].seq
 
         for i in range(len(msg)-1):
-            self.send_pkt(payload=msg[i:i+1], flags="A", seq=ack+i, ack=seq+i+1, sport=sport, dip=target)
-            self.send_pkt(payload='x', ttl=ttl, flags="A", seq=ack+i, ack=seq+i+1, sport=sport, dip=target)
+            self.send_pkt(payload=msg[i:i+1], flags="A", seq=ack+i, ack=seq+i+1, sport=source_port, dip=target)
+            self.send_pkt(payload='x', ttl=ttl, flags="A", seq=ack+i, ack=seq+i+1, sport=source_port, dip=target)
         while (self.packetQueue.qsize() > 0):
             response = self.get_pkt()
             if response == None:
