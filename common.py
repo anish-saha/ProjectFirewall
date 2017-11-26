@@ -151,7 +151,30 @@ class PacketUtils:
     # ttl is a ttl which triggers the Great Firewall but is before the
     # server itself (from a previous traceroute incantation
     def evade(self, target, msg, ttl):
-        return "NEED TO IMPLEMENT"
+        result = ""
+        # Send the initial SYN packet
+        self.send_pkt(flags="S", sport=source_port, dip=target)
+        response = self.get_pkt()
+        if response == None:
+            return "DEAD"
+        # Get the ACK and SEQ values from the server-end response
+        ack = response[TCP].ack
+        seq = response[TCP].seq
+
+        for i in range(len(msg)-1):
+            self.send_pkt(payload=msg[i:i+1], flags="A", seq=ack+i, ack=seq+i+1, sport=sport, dip=target)
+            self.send_pkt(payload='x', ttl=ttl, flags="A", seq=ack+i, ack=seq+i+1, sport=sport, dip=target)
+        while (self.packetQueue.qsize() > 0):
+            response = self.get_pkt()
+            if response == None:
+                return "ERROR"
+            if isRST(response):
+                return "RST"
+            if not isTimeExceeded(response) and 'Raw' in response:
+                result += str(packet['Raw'].load)
+        # Return the reconstructed packet after appending all parts of the msg
+        return result
+
         
     # Returns "DEAD" if server isn't alive,
     # "LIVE" if the server is alive,
@@ -200,7 +223,7 @@ class PacketUtils:
         source_port = random.randint(2000, 30000)
         payload = "GET /search?q=Falun+Gong HTTP/1.1\nhost: www.google.com\n\n"
         num_copies = 3
-        
+        # Send the initial SYN packet
         self.send_pkt(flags="S", sport=source_port, dip=target)
         response = self.get_pkt()
         if response == None:
