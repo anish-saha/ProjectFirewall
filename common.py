@@ -171,7 +171,7 @@ class PacketUtils:
             if isRST(response):
                 return "RST"
             if not isTimeExceeded(response) and 'Raw' in response:
-                result += str(packet['Raw'].load)
+                result += str(response['Raw'].load)
         # Return the reconstructed packet after appending all parts of the msg
         return result
 
