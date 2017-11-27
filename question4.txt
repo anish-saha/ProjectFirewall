@@ -1,2 +1,26 @@
-Describe (in 2-3 paragraphs) your evasion strategy:
+~ Anish Saha, Dipam Acharrya
+~ CS161: Computer Security
+~ Professor Weaver - Fall 2017
+~ Login: cs161-afo, cs161-afp
+~ question4.txt
+
+
+SYN packet (as with problems 2 and 3), repeatedly sending packets consisting of one character of 
+the message alongside a dummy packet, then finally reconstructing the response and filtering out
+the responses to the dummy packet. In the first step, we initialized a source port between 2000 
+and initialized the initial result as an empty string. After this, the connection was established
+by usend send_pkt with the flag "S" (to indicate SYN), and if there is no response, the function
+would return DEAD and the command to run the function should be repeated.
+
+Following this, we decided to split up the message character by character and send each one as a 
+payload. However, we also had to include a dummy packet immediately with the specified parameter
+ttl so that the previous packet would not trigger the firewall. The dummy packet's payload is 
+unimportant and could be any random character, but we chose 'x' for our implementation. After 
+sending all of these packets, we iterated through the packet queue and received all the responses.
+Then, we filtered out all the IMCPTimeExceeded packets and the ones without text in them (denoted
+by the 'Raw' attribute) and appended the response text of all the other packets remaining to the
+result string and returned this string. This method guarantees that we will bypass the firewall,
+but the packets we receive from the responses may or may not be reconstructed in the correct 
+order. Nevertheless, we are able to get the response from the server, bypassing the Great Firewall,
+which would not otherwise be possible without the functionality in the evade function in common.
 
