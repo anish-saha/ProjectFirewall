@@ -197,11 +197,6 @@ class PacketUtils:
         # Ensure that there are no more packets to be sent
         while (self.packetQueue.qsize() > 0):
             response = self.get_pkt()
-            if response == None:
-                return "LIVE"
-            if isRST(response):
-                return "FIREWALL"
-        response = self.get_pkt()
         # Finally check the whether the server responded with an RST packet
         if response == None:
             return "LIVE"
